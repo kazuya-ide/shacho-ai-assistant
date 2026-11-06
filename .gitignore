@@ -1,0 +1,8 @@
+node_modules/
+*.log
+
+# 記憶・会話・人格の中身は「社長のPCの中だけ」。リポジトリ（GitHub）には入れない。
+/persona.md
+/memory/conversations/
+/memory/notes/*.md
+!/memory/notes/README.md

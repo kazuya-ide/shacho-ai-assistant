@@ -1,0 +1,11 @@
+{
+  "name": "shacho-ai-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "堀内代表 専用AIアシスタント（社長のPCの中で常駐・月額クロードで動く・記憶はローカル）",
+  "scripts": {
+    "start": "node server.mjs",
+    "say": "node tools/say.mjs"
+  }
+}
