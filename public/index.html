@@ -33,7 +33,7 @@
   .row{display:flex}
   .row.me{justify-content:flex-end}
   .bub{max-width:82%;padding:10px 14px;border-radius:16px;line-height:1.6;
-    font-size:15px;white-space:pre-wrap;word-break:break-word}
+    font-size:var(--msg-size,15px);white-space:pre-wrap;word-break:break-word}
   .me .bub{background:var(--me);color:var(--me-ink);border-bottom-right-radius:5px}
   .ai .bub{background:var(--ai);color:var(--ai-ink);border:1px solid var(--line);border-bottom-left-radius:5px}
   .hint{color:var(--muted);font-size:13px;text-align:center;margin:auto 0}
@@ -103,10 +103,20 @@ box.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); ask(); }
 });
 
-// アシスタントの名前をタイトルに反映
-fetch('/manifest.webmanifest').then(r=>r.json()).then(m=>{
-  if(m && m.name){ document.getElementById('title').textContent = m.name; document.title = m.name; }
+// 見た目（theme.json）を反映。社長が変えてよい場所。
+fetch('/theme.json').then(r=>r.json()).then(t=>{
+  if(t && t.名前){ document.getElementById('title').textContent = t.名前; document.title = t.名前; }
+  const root = document.documentElement;
+  if(t && t.アクセント色){ root.style.setProperty('--accent', t.アクセント色); root.style.setProperty('--me', t.アクセント色); }
+  if(t && t.文字サイズ){ root.style.setProperty('--msg-size', t.文字サイズ + 'px'); }
 }).catch(()=>{});
+// 社長のカスタム（あれば本体の上から当てる。無ければ何もしない）
+(function(){
+  const css = document.createElement('link'); css.rel='stylesheet'; css.href='/custom/custom.css';
+  css.onerror = ()=>css.remove(); document.head.appendChild(css);
+  const js = document.createElement('script'); js.src='/custom/custom.js';
+  js.onerror = ()=>js.remove(); document.body.appendChild(js);
+})();
 </script>
 </body>
 </html>

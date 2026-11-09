@@ -94,6 +94,16 @@ const server = createServer(async (req, res) => {
   res.end('使えないメソッドです');
 });
 
+// 二重起動・ポート重なりを分かりやすく止める。
+server.on('error', (e) => {
+  if (e.code === 'EADDRINUSE') {
+    console.error(`ポート ${PORT} は使用中です。秘書はすでに起動している可能性があります。`);
+  } else {
+    console.error('起動に失敗しました:', e.message);
+  }
+  process.exit(1);
+});
+
 // 127.0.0.1 だけで待ち受ける。スマホからは Tailscale 経由でつなぐ（外には出さない）。
 server.listen(PORT, '127.0.0.1', () => {
   const name = settings.アシスタントの名前 || '秘書';

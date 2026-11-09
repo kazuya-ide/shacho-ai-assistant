@@ -9,3 +9,8 @@ node_modules/
 /memory/conversations/
 /memory/notes/*.md
 !/memory/notes/README.md
+
+# 環境ごとの設定・バックアップの鍵・バックアップ出力も、社長PCの中だけ。
+/config/settings.json
+/config/backup.key
+/backup/

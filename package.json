@@ -6,6 +6,10 @@
   "description": "堀内代表 専用AIアシスタント（社長のPCの中で常駐・月額クロードで動く・記憶はローカル）",
   "scripts": {
     "start": "node server.mjs",
-    "say": "node tools/say.mjs"
+    "say": "node tools/say.mjs",
+    "update": "node tools/update.mjs",
+    "sync": "node tools/sync.mjs",
+    "backup": "node tools/backup.mjs",
+    "restore": "node tools/restore.mjs"
   }
 }
