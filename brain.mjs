@@ -55,10 +55,9 @@ export function askClaude(prompt, { model = '', timeoutMs = 180000 } = {}) {
       } else {
         reject(
           new Error(
-            'クロードが失敗しました（終了コード ' +
-              code +
-              '）。' +
-              (err ? '\n' + err.slice(0, 600) : '')
+            'クロードに接続できませんでした。初回は一度だけサインインが必要です。' +
+              'ターミナルで「claude auth login」を実行してログインしてください。' +
+              (err ? '\n(詳細: ' + err.slice(0, 300) + ')' : '')
           )
         );
       }

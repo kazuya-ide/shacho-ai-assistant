@@ -27,6 +27,16 @@ if errorlevel 1 (
 
 set "PATH=%PATH%;%ProgramFiles%\nodejs\;%ProgramFiles%\Git\cmd"
 
+rem --- Claude ( the brain; uses your monthly subscription ) ---
+where claude >nul 2>nul
+if errorlevel 1 (
+  echo.
+  echo Claude Code is required but was not found.
+  echo Please install Claude Code and sign in to Claude, then run this file again.
+  pause
+  exit /b 1
+)
+
 set "DEST=%USERPROFILE%\shacho-ai"
 echo [3/4] Getting the app ...
 if exist "%DEST%\.git" (
@@ -57,7 +67,7 @@ echo.
 echo ============================================
 echo   Done.  If the page did not open, go to:
 echo       http://127.0.0.1:8787/
-echo   If asked, log in to Claude once.
+echo   If the assistant cannot reply, run once:  claude auth login
 echo ============================================
 echo.
 pause
