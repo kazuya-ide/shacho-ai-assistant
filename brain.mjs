@@ -6,6 +6,14 @@
 // PC を操作することはない（井手さんの CLAUDE.md 2026-11-03 の注意に合わせた形）。
 
 import { spawn } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { mkdirSync } from 'node:fs';
+import { join } from 'node:path';
+
+// claude を「まっさら」な場所で動かすための作業フォルダ。
+// ここで動かすことで、このPCの CLAUDE.md（全体・アプリ内）を拾わない。
+const BRAIN_DIR = join(tmpdir(), 'shacho-ai-brain');
+try { mkdirSync(BRAIN_DIR, { recursive: true }); } catch {}
 
 /**
  * claude -p に prompt を渡して、返事の文章を受け取る。
@@ -16,11 +24,16 @@ import { spawn } from 'node:child_process';
 export function askClaude(prompt, { model = '', timeoutMs = 180000 } = {}) {
   return new Promise((resolve, reject) => {
     // Windows では claude は .cmd のため shell 経由で呼ぶ。コマンドは1本の文字列で渡す。
+    //   --tools ""            … 道具を持たせない（安全）
+    //   --strict-mcp-config   … MCP 連携を読み込まない
+    //   --setting-sources ""  … このPCの設定・hook（CLAUDE.md由来の振る舞い等）を読み込まない
+    // さらに cwd をまっさらな作業フォルダにして、CLAUDE.md を拾わないようにする。
+    // これで「秘書」の人格だけで答える（このPCの他の設定に汚染されない）。
     const cmd =
-      `claude -p --tools "" --strict-mcp-config` +
+      `claude -p --tools "" --strict-mcp-config --setting-sources ""` +
       (model ? ` --model ${model}` : '');
 
-    const child = spawn(cmd, { shell: true, windowsHide: true });
+    const child = spawn(cmd, { shell: true, windowsHide: true, cwd: BRAIN_DIR });
 
     let out = '';
     let err = '';
