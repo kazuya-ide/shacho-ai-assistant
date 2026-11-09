@@ -1,6 +1,9 @@
 node_modules/
 *.log
 
+# 配布用のデプロイキー（秘密鍵は絶対にGitHubへ上げない）
+/deploy/
+
 # 記憶・会話・人格の中身は「社長のPCの中だけ」。リポジトリ（GitHub）には入れない。
 /persona.md
 /memory/conversations/

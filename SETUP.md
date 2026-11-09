@@ -12,9 +12,15 @@
 1. **node が入っているか確認**してください。`node --version` を実行し、バージョンが出ればOK。
    出なければ https://nodejs.org/ja の「LTS」を入れてください。
 
-2. **アプリ一式を置く**。
-   - GitHub から受け取る場合：`git clone <リポジトリURL> "%USERPROFILE%\shacho-ai"` を実行。
-   - zip で受け取った場合：展開して `%USERPROFILE%\shacho-ai` に置く。
+2. **アプリ一式を置く**（井手さんが用意した「読み取り専用キー」で取り込む。社長はGitHubに登録不要）。
+   - 井手さんから渡された鍵ファイル `shacho-ai-deploy` を `%USERPROFILE%\.ssh\` に置く。
+   - 次を実行（このリポジトリを読み取り専用で取り込む）:
+     ```
+     set GIT_SSH_COMMAND=ssh -i "%USERPROFILE%\.ssh\shacho-ai-deploy" -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new
+     git clone git@github.com:kazuya-ide/shacho-ai-assistant.git "%USERPROFILE%\shacho-ai"
+     ```
+   - 更新するときも、同じ `set GIT_SSH_COMMAND=...` を実行したあと、フォルダ内で `git pull`。
+   - 初回だけ、人格ファイルを用意：`copy persona.example.md persona.md`。
 
 3. 置いたフォルダへ移動して、**起動できるか確認**してください。
    ```
