@@ -1,5 +1,4 @@
 @echo off
-rem 秘書（社長AIアシスタント）を起動します。
-rem このファイルのショートカットを「スタートアップ」に置くと、PC起動時に自動で立ち上がります。
+rem Shacho AI Assistant launcher. A shortcut of this in Startup makes it auto-run at boot.
 cd /d "%~dp0"
 node server.mjs
