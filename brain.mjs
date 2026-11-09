@@ -29,8 +29,10 @@ export function askClaude(prompt, { model = '', timeoutMs = 180000 } = {}) {
     //   --setting-sources ""  … このPCの設定・hook（CLAUDE.md由来の振る舞い等）を読み込まない
     // さらに cwd をまっさらな作業フォルダにして、CLAUDE.md を拾わないようにする。
     // これで「秘書」の人格だけで答える（このPCの他の設定に汚染されない）。
+    // 先頭の `chcp 65001` で、この子プロセスの文字コードを UTF-8 に固定する。
+    // これが無いと、日本語PC(CP932)で標準入力の日本語が文字化けする。
     const cmd =
-      `claude -p --tools "" --strict-mcp-config --setting-sources ""` +
+      `chcp 65001 >nul & claude -p --tools "" --strict-mcp-config --setting-sources ""` +
       (model ? ` --model ${model}` : '');
 
     const child = spawn(cmd, { shell: true, windowsHide: true, cwd: BRAIN_DIR });
